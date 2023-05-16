@@ -10,11 +10,29 @@ html {
 h1 {
   display: flex;
   justify-content: center;
-  font-size: 3rem;
+  font-size: 5rem;
   font-family: cursive;
   color: sienna;
+  padding: 0.5em;
 }
 
 body {
   background: lightcoral;
+}
+
+.gameBoard {
+  border: 2px solid black;
+  height: 400px;
+  width: 400px;
+  margin: auto;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-rows: 1fr 1fr 1fr;
+}
+
+.cell {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 1px solid black;
 }
