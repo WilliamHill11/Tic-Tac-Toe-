@@ -5,6 +5,7 @@ function playerX(name) {
   let player = {
     mark: 'X',
     name,
+    turn: true,
   };
   return player;
 }
@@ -13,6 +14,7 @@ function playerO(name) {
   let player = {
     mark: 'O',
     name,
+    turn: false,
   };
   return player;
 }
@@ -42,19 +44,25 @@ const gameBoard = (function () {
   }
 
   // bind events
-  cells.forEach((button) => {
-    button.addEventListener('click', markBoard);
-    log(button);
+  cells.forEach((box) => {
+    box.addEventListener('click', markBoard);
+    log(box);
   });
 
   function markBoard(e) {
     let unMarkedBox = '';
     let boxClicked = e.target.dataset.index;
     log(boxClicked);
-    if (boxClicked.clicked) {
-      return (boxClicked.innerHTML = player2.mark);
+    celltwo = displayBoard[0][2];
+    if (boxClicked && player1.turn) {
+      displayBoard.textContent = player1.mark;
     }
   }
+
+  // function winCondition() {
+  //   if (null === ['x', 'x', 'x',
+  //                 'o', 'o', 'o'])
+  // }
 
   return {
     cells,
