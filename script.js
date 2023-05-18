@@ -35,13 +35,12 @@ const gameBoard = (function () {
   const cells = document.querySelectorAll('[data-index]');
 
   //render
-  function render(e) {
-    displayBoard.push(cells);
-    cellOne = displayBoard[0][0];
-    cellOne.textContent = player1.mark;
-    log(displayBoard);
-    // log(cells);
-  }
+  // function render() {
+  //   cellOne = displayBoard[0][0];
+  //   cellOne.textContent = player1.mark;
+  //   log(displayBoard);
+
+  // }
 
   // bind events
   cells.forEach((box) => {
@@ -49,11 +48,17 @@ const gameBoard = (function () {
     log(box);
   });
 
+  function whichPlayersTurn() {}
+
   function markBoard(e) {
     let unMarkedBox = '';
     let boxClicked = e.target.dataset.index;
-    let cellTwo = cells[1];
-    cellTwo.textContent = displayBoard.splice(boxClicked, 1, player1.mark);
+    displayBoard.push(boxClicked);
+    log(displayBoard);
+    let cellTwo = cells[boxClicked];
+    displayBoard.splice(displayBoard.indexOf(displayBoard), 1, player1.mark);
+    boxClicked = player1.mark;
+    cellTwo.textContent = boxClicked;
     log(cellTwo);
   }
 
@@ -65,14 +70,14 @@ const gameBoard = (function () {
   return {
     // cells,
     // displayBoard,
-    render,
+    // render,
     // markBoard,
     // player1,
     // player2,
   };
 })();
 
-gameBoard.render();
+// gameBoard.render();
 
 // render function
 
