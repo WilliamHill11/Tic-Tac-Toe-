@@ -38,9 +38,9 @@ const gameBoard = (function () {
   function render(e) {
     displayBoard.push(cells);
     cellOne = displayBoard[0][0];
-    cellOne.textContent = 'o';
+    cellOne.textContent = player1.mark;
     log(displayBoard);
-    log(cells);
+    // log(cells);
   }
 
   // bind events
@@ -52,11 +52,9 @@ const gameBoard = (function () {
   function markBoard(e) {
     let unMarkedBox = '';
     let boxClicked = e.target.dataset.index;
-    log(boxClicked);
-    celltwo = displayBoard[0][2];
-    if (boxClicked && player1.turn) {
-      displayBoard.textContent = player1.mark;
-    }
+    let cellTwo = cells[1];
+    cellTwo.textContent = displayBoard.splice(boxClicked, 1, player1.mark);
+    log(cellTwo);
   }
 
   // function winCondition() {
@@ -65,12 +63,12 @@ const gameBoard = (function () {
   // }
 
   return {
-    cells,
-    displayBoard,
+    // cells,
+    // displayBoard,
     render,
-    markBoard,
-    player1,
-    player2,
+    // markBoard,
+    // player1,
+    // player2,
   };
 })();
 
