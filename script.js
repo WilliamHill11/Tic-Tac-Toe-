@@ -22,6 +22,7 @@ function playerO(name) {
 // gameBoard object
 const gameBoard = (function () {
   let displayBoard = [];
+  let turn = 0;
 
   const player1 = playerX('Player X');
   log(player1.mark);
@@ -32,34 +33,40 @@ const gameBoard = (function () {
   log(player2.name);
 
   //cache DOM
-  const cells = document.querySelectorAll('[data-index]');
+  let cells = document.querySelectorAll('[data-index]');
 
-  //render
-  // function render() {
-  //   cellOne = displayBoard[0][0];
-  //   cellOne.textContent = player1.mark;
-  //   log(displayBoard);
+  // render
+  // function render() {}
 
-  // }
+  // pass a parameter in markboard so it knows its this players turn
 
   // bind events
-  cells.forEach((box) => {
-    box.addEventListener('click', markBoard);
-    log(box);
+  cells.forEach((cell) => {
+    cell.addEventListener('click', markBoard);
+    log(cell);
   });
 
-  function whichPlayersTurn() {}
+  function playersTurn() {
+    if (turn % 2 === 0 && cells !== player1.mark) {
+      turn++;
+      return player1.mark;
+    } else {
+      turn++;
+      return player2.mark;
+    }
+  }
 
   function markBoard(e) {
-    let unMarkedBox = '';
-    let boxClicked = e.target.dataset.index;
-    displayBoard.push(boxClicked);
+    let boxValue = e.target.dataset.index;
+    let cell = cells[boxValue];
+    displayBoard.push(boxValue);
+    boxValue = playersTurn();
+    displayBoard.splice(displayBoard.indexOf(displayBoard), 1, boxValue);
+    cell.textContent = boxValue;
+
+    // checkWinner();
     log(displayBoard);
-    let cellTwo = cells[boxClicked];
-    displayBoard.splice(displayBoard.indexOf(displayBoard), 1, player1.mark);
-    boxClicked = player1.mark;
-    cellTwo.textContent = boxClicked;
-    log(cellTwo);
+    log(cell);
   }
 
   // function winCondition() {
