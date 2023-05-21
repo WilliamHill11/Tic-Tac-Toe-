@@ -22,6 +22,7 @@ function playerO(name) {
 // gameBoard object
 const gameBoard = (function () {
   let displayBoard = [];
+  let array = [];
   let turn = 0;
 
   const player1 = playerX('Player X');
@@ -62,26 +63,57 @@ const gameBoard = (function () {
   function markBoard(e) {
     let boxValue = e.target.dataset.index;
     let cell = cells[boxValue];
-    displayBoard.push(boxValue);
+    displayBoard.splice(boxValue, 0, displayBoard);
+    // array.push(boxValue);
     boxValue = playersTurn();
     displayBoard.splice(displayBoard.indexOf(displayBoard), 1, boxValue);
     cell.textContent = boxValue;
     cell.classList.add('noMore');
-    checkWinner();
 
-    // checkWinner
-    function checkWinner() {}
+    function checkWinner(array, element, ...indexes) {
+      const occurrences = indexes.filter((index) => array[index] === element);
 
+      return occurrences.length === 3;
+    }
     log(displayBoard);
-    log(cell);
+    const elementToCheck = 'X';
+    const indexesToCheck = [
+      [0, 1, 2],
+      [0, 3, 6],
+    ]; // Indexes to check for the element
+    const hasThreeOccurrences = checkWinner(
+      displayBoard,
+      elementToCheck,
+      indexesToCheck
+    );
+
+    console.log(hasThreeOccurrences); // Output: true
   }
 
-  // function winCondition() {
-  //   if (null === ['x', 'x', 'x',
-  //                 'o', 'o', 'o'])
+  //Winning index
+  //0, 1, 2
+  //0, 3, 6
+  //0, 4, 8
+  //1, 4, 7
+  //2, 5, 8
+  //2, 4, 6
+  //3, 4, 5,
+  //6, 7, 8
+
+  // checkWinner
+  // function checkWinner(e) {
+
+  //   let grid = e.target.dataset.index;
+  //   log(grid);
+  //   if (displayBoard.indexOf(0, 1, 2)) {
+  //     console.log('yes');
+  //   } else {
+  //     return 'no';
+  //   }
   // }
 
   return {
+    // cell,
     // cells,
     // displayBoard,
     // render,
