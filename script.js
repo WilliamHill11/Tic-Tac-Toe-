@@ -47,7 +47,7 @@ const gameBoard = (function () {
   });
 
   function playersTurn() {
-    if (turn % 2 === 0 && cells !== player1.mark) {
+    if (turn % 2 === 0) {
       turn++;
       return player1.mark;
     } else {
@@ -63,6 +63,7 @@ const gameBoard = (function () {
     boxValue = playersTurn();
     displayBoard.splice(displayBoard.indexOf(displayBoard), 1, boxValue);
     cell.textContent = boxValue;
+    cell.classList.add('noMore');
 
     // checkWinner();
     log(displayBoard);

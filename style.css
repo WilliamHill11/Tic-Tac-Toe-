@@ -38,3 +38,13 @@ body {
   font-size: 2em;
   font-family: cursive;
 }
+
+.playersTurn {
+  display: flex;
+  justify-content: center;
+  font-size: 2rem;
+}
+
+.noMore {
+  pointer-events: none;
+}
