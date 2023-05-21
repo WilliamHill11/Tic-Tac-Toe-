@@ -21,13 +21,15 @@ body {
 }
 
 .gameBoard {
-  border: 2px solid black;
+  border: 3px solid black;
   height: 400px;
   width: 400px;
   margin: auto;
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
   grid-template-rows: 1fr 1fr 1fr;
+  gap: 0.15em;
+  background-color: black;
 }
 
 .cell {
@@ -37,12 +39,15 @@ body {
   border: 1px solid black;
   font-size: 2em;
   font-family: cursive;
+  background-color: sienna;
+  cursor: pointer;
 }
 
 .playersTurn {
   display: flex;
   justify-content: center;
   font-size: 2rem;
+  padding: 1em;
 }
 
 .noMore {

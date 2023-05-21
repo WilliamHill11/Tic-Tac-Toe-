@@ -34,6 +34,7 @@ const gameBoard = (function () {
 
   //cache DOM
   let cells = document.querySelectorAll('[data-index]');
+  let activePlayer = document.querySelector('.playersTurn');
 
   // render
   // function render() {}
@@ -49,9 +50,11 @@ const gameBoard = (function () {
   function playersTurn() {
     if (turn % 2 === 0) {
       turn++;
+      activePlayer.textContent = 'Turn: Player O';
       return player1.mark;
     } else {
       turn++;
+      activePlayer.textContent = 'Turn: Player X';
       return player2.mark;
     }
   }
@@ -64,8 +67,11 @@ const gameBoard = (function () {
     displayBoard.splice(displayBoard.indexOf(displayBoard), 1, boxValue);
     cell.textContent = boxValue;
     cell.classList.add('noMore');
+    checkWinner();
 
-    // checkWinner();
+    // checkWinner
+    function checkWinner() {}
+
     log(displayBoard);
     log(cell);
   }
