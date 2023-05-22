@@ -1,4 +1,37 @@
 // player object
+
+const Player = (symbol) => {
+  this.symbol = symbol;
+
+  const getSymbol = () => {
+    return symbol;
+  };
+
+  return { getSymbol };
+};
+
+const gameBoard2 = (() => {
+  const board = ['', '', '', '', '', '', '', '', ''];
+
+  const setField = (index, sign) => {
+    if (index > board.length) return;
+    return board[index];
+  };
+
+  const getField = (index) => {
+    if (index > board.index) return;
+    return board[index];
+  };
+
+  const reset = () => {
+    for (let i = 0; i < board.length; i++) {
+      board[i] = '';
+    }
+  };
+
+  return { setField, getField, reset };
+})();
+
 function playerX(name) {
   let player = {
     mark: 'X',
