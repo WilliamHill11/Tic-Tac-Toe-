@@ -61,8 +61,9 @@ const gameBoard = (function () {
   }
 
   function markBoard(e) {
-    let boxValue = e.target.dataset.index;
+    let boxValue = parseInt(e.target.dataset.index);
     let cell = cells[boxValue];
+    log(boxValue);
     displayBoard.splice(boxValue, 0, displayBoard);
     // array.push(boxValue);
     boxValue = playersTurn();
@@ -70,7 +71,7 @@ const gameBoard = (function () {
     cell.textContent = boxValue;
     cell.classList.add('noMore');
 
-    function checkWinner(array, element, ...indexes) {
+    function checkWinner(array, element, indexes) {
       const occurrences = indexes.filter((index) => array[index] === element);
 
       return occurrences.length === 3;
