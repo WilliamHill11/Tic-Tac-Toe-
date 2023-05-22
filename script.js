@@ -1,5 +1,3 @@
-let log = console.log;
-
 // player object
 function playerX(name) {
   let player = {
@@ -22,7 +20,6 @@ function playerO(name) {
 // gameBoard object
 const gameBoard = (function () {
   let displayBoard = [];
-  let array = [];
   let turn = 0;
 
   const player1 = playerX('Player X');
@@ -36,11 +33,6 @@ const gameBoard = (function () {
   //cache DOM
   let cells = document.querySelectorAll('[data-index]');
   let activePlayer = document.querySelector('.playersTurn');
-
-  // render
-  // function render() {}
-
-  // pass a parameter in markboard so it knows its this players turn
 
   // bind events
   cells.forEach((cell) => {
@@ -65,7 +57,6 @@ const gameBoard = (function () {
     let cell = cells[boxValue];
     log(boxValue);
     displayBoard.splice(boxValue, 0, displayBoard);
-    // array.push(boxValue);
     boxValue = playersTurn();
     displayBoard.splice(displayBoard.indexOf(displayBoard), 1, boxValue);
     cell.textContent = boxValue;
@@ -91,27 +82,18 @@ const gameBoard = (function () {
     console.log(hasThreeOccurrences); // Output: true
   }
 
-  //Winning index
-  //0, 1, 2
-  //0, 3, 6
-  //0, 4, 8
-  //1, 4, 7
-  //2, 5, 8
-  //2, 4, 6
-  //3, 4, 5,
-  //6, 7, 8
-
-  // checkWinner
-  // function checkWinner(e) {
-
-  //   let grid = e.target.dataset.index;
-  //   log(grid);
-  //   if (displayBoard.indexOf(0, 1, 2)) {
-  //     console.log('yes');
-  //   } else {
-  //     return 'no';
-  //   }
-  // }
+  const checkWinner = (fieldIndex) => {
+    const winConditions = [
+      [0, 1, 2],
+      [0, 3, 6],
+      [0, 4, 8],
+      [1, 4, 7],
+      [2, 5, 8],
+      [2, 4, 6],
+      [3, 4, 5],
+      [6, 7, 8],
+    ];
+  };
 
   return {
     // cell,
@@ -123,15 +105,5 @@ const gameBoard = (function () {
     // player2,
   };
 })();
-
-// gameBoard.render();
-
-// render function
-
-// gameBoard.cells.forEach((e) => {
-//   console.log(e.dataset.index);
-// });
-
-// console.log(gameBoard.displayBoard);
 
 // restart button
