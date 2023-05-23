@@ -1,21 +1,21 @@
 // player object
 
-const Player = (symbol) => {
-  this.symbol = symbol;
+const Player = (sign) => {
+  this.sign = sign;
 
-  const getSymbol = () => {
-    return symbol;
+  const getSign = () => {
+    return sign;
   };
 
-  return { getSymbol };
+  return { getSign };
 };
 
-const gameBoard2 = (() => {
+const gameBoard = (() => {
   const board = ['', '', '', '', '', '', '', '', ''];
 
   const setField = (index, sign) => {
     if (index > board.length) return;
-    return board[index];
+    board[index] = sign;
   };
 
   const getField = (index) => {
@@ -32,111 +32,105 @@ const gameBoard2 = (() => {
   return { setField, getField, reset };
 })();
 
-function playerX(name) {
-  let player = {
-    mark: 'X',
-    name,
-    turn: true,
-  };
-  return player;
-}
+const displayController = (() => {
+  const cellElements = document.querySelectorAll('.cell');
+  const messageElement = document.querySelector('.playersTurn');
+  const restartButton = document.getElementById('restart');
 
-function playerO(name) {
-  let player = {
-    mark: 'O',
-    name,
-    turn: false,
-  };
-  return player;
-}
+  cellElements.forEach((field) =>
+    field.addEventListener('click', (e) => {
+      console.log(e.target, 'yes');
+      if (gameController.getIsOver() || e.target.textContent !== '') return;
+      gameController.playRound(parseInt(e.target.dataset.index));
+      updateGameBoard();
+    })
+  );
 
-// gameBoard object
-const gameBoard = (function () {
-  let displayBoard = [];
-  let turn = 0;
-
-  const player1 = playerX('Player X');
-  log(player1.mark);
-  log(player1.name);
-
-  const player2 = playerO('Player O');
-  log(player2.mark);
-  log(player2.name);
-
-  //cache DOM
-  let cells = document.querySelectorAll('[data-index]');
-  let activePlayer = document.querySelector('.playersTurn');
-
-  // bind events
-  cells.forEach((cell) => {
-    cell.addEventListener('click', markBoard);
-    log(cell);
+  restartButton.addEventListener('click', (e) => {
+    gameBoard.reset();
+    gameController.reset();
+    updateGameBoard();
+    setMessageElement("Player X's turn");
   });
 
-  function playersTurn() {
-    if (turn % 2 === 0) {
-      turn++;
-      activePlayer.textContent = 'Turn: Player O';
-      return player1.mark;
+  const updateGameBoard = () => {
+    for (let i = 0; i < cellElements.length; i++) {
+      cellElements[i].textContent = gameBoard.getField(i);
+    }
+  };
+
+  const setResultMessage = (winner) => {
+    if (winner === 'Draw') {
+      setMessageElement("It's a draw!");
     } else {
-      turn++;
-      activePlayer.textContent = 'Turn: Player X';
-      return player2.mark;
+      setMessageElement(`Player ${winner} has won!`);
     }
-  }
+  };
 
-  function markBoard(e) {
-    let boxValue = parseInt(e.target.dataset.index);
-    let cell = cells[boxValue];
-    log(boxValue);
-    displayBoard.splice(boxValue, 0, displayBoard);
-    boxValue = playersTurn();
-    displayBoard.splice(displayBoard.indexOf(displayBoard), 1, boxValue);
-    cell.textContent = boxValue;
-    cell.classList.add('noMore');
+  const setMessageElement = (message) => {
+    messageElement.textContent = message;
+  };
 
-    function checkWinner(array, element, indexes) {
-      const occurrences = indexes.filter((index) => array[index] === element);
+  return { setResultMessage, setMessageElement };
+})();
 
-      return occurrences.length === 3;
+const gameController = (() => {
+  const playerX = Player('X');
+  const playerO = Player('O');
+  let round = 1;
+  let isOver = false;
+
+  const playRound = (fieldIndex) => {
+    gameBoard.setField(fieldIndex, getCurrentPlayerSign());
+    if (checkWinner(fieldIndex)) {
+      displayController.setResultMessage(getCurrentPlayerSign());
+      isOver = true;
+      return;
     }
-    log(displayBoard);
-    const elementToCheck = 'X';
-    const indexesToCheck = [
-      [0, 1, 2],
-      [0, 3, 6],
-    ]; // Indexes to check for the element
-    const hasThreeOccurrences = checkWinner(
-      displayBoard,
-      elementToCheck,
-      indexesToCheck
+    if (round === 9) {
+      displayController.setResultMessage('Draw');
+      isOver = true;
+      return;
+    }
+    round++;
+    displayController.setMessageElement(
+      `Player ${getCurrentPlayerSign()}'s turn`
     );
+  };
 
-    console.log(hasThreeOccurrences); // Output: true
-  }
+  const getCurrentPlayerSign = () => {
+    return round % 2 === 1 ? playerX.getSign() : playerO.getSign();
+  };
 
   const checkWinner = (fieldIndex) => {
     const winConditions = [
       [0, 1, 2],
-      [0, 3, 6],
-      [0, 4, 8],
-      [1, 4, 7],
-      [2, 5, 8],
-      [2, 4, 6],
       [3, 4, 5],
       [6, 7, 8],
+      [0, 3, 6],
+      [1, 4, 7],
+      [2, 5, 8],
+      [0, 4, 8],
+      [2, 4, 6],
     ];
+
+    return winConditions
+      .filter((combination) => combination.includes(fieldIndex))
+      .some((possibleCombination) =>
+        possibleCombination.every(
+          (index) => gameBoard.getField(index) === getCurrentPlayerSign()
+        )
+      );
   };
 
-  return {
-    // cell,
-    // cells,
-    // displayBoard,
-    // render,
-    // markBoard,
-    // player1,
-    // player2,
+  const getIsOver = () => {
+    return isOver;
   };
+
+  const reset = () => {
+    round = 1;
+    isOver = false;
+  };
+
+  return { playRound, getIsOver, reset };
 })();
-
-// restart button
